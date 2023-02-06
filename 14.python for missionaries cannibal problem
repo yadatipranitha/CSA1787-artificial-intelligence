@@ -1,0 +1,63 @@
+def is_valid(state, max_people):
+    """
+    Check if the current state is valid or not.
+    """
+    missionaries_on_left = state[0]
+    cannibals_on_left = state[1]
+    boat_on_left = state[2]
+
+    # Check if number of people on either side is within limits
+    if (missionaries_on_left < 0 or cannibals_on_left < 0 or 
+        missionaries_on_left > max_people or cannibals_on_left > max_people):
+        return False
+
+    # Check if the number of missionaries does not fall below the number of cannibals on either side
+    if ((missionaries_on_left > 0 and cannibals_on_left > missionaries_on_left) or
+        (missionaries_on_left < max_people and cannibals_on_left > max_people - missionaries_on_left)):
+        return False
+
+    return True
+
+
+def get_next_states(state, max_people):
+    """
+    Get all the possible next states from the current state.
+    """
+    missionaries_on_left = state[0]
+    cannibals_on_left = state[1]
+    boat_on_left = state[2]
+
+    next_states = []
+
+    if boat_on_left == 1:
+        # Boat is on the left bank
+
+        # Case 1: 2 Missionaries move to right bank
+        if missionaries_on_left >= 2:
+            next_state = (missionaries_on_left-2, cannibals_on_left, 0)
+            if is_valid(next_state, max_people):
+                next_states.append(next_state)
+
+        # Case 2: 2 Cannibals move to right bank
+        if cannibals_on_left >= 2:
+            next_state = (missionaries_on_left, cannibals_on_left-2, 0)
+            if is_valid(next_state, max_people):
+                next_states.append(next_state)
+
+        # Case 3: 1 Missionary and 1 Cannibal move to right bank
+        if missionaries_on_left >= 1 and cannibals_on_left >= 1:
+            next_state = (missionaries_on_left-1, cannibals_on_left-1, 0)
+            if is_valid(next_state, max_people):
+                next_states.append(next_state)
+
+        # Case 4: 1 Missionary moves to right bank
+        if missionaries_on_left >= 1:
+            next_state = (missionaries_on_left-1, cannibals_on_left, 0)
+            if is_valid(next_state, max_people):
+                next_states.append(next_state)
+
+        # Case 5: 1 Cannibal moves to right bank
+        if cannibals_on_left >= 1:
+            next_state = (missionaries_on_left, cannibals_on_left-1, 0)
+            if is_valid(next_state, max_people):
+                next_states.append(next_
