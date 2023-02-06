@@ -1,0 +1,47 @@
+# Define the possible locations and states of the environment
+locations = ['A', 'B']
+states = ['Clean', 'Dirty']
+
+# Define the actions that the agent can take
+actions = ['Right', 'Left', 'Suck']
+
+# Define the transition function that maps a state and an action to a new state
+def transition(state, action):
+    if action == 'Suck':
+        return 'Clean'
+    return state
+
+# Define the performance function that scores the state of the environment
+def performance(state):
+    if state == 'Clean':
+        return 10
+    return -10
+
+# Define the agent's behavior using a simple reflex algorithm
+def vacuum_cleaner_agent(location, state):
+    if state == 'Dirty':
+        return 'Suck'
+    if location == 'A':
+        return 'Right'
+    return 'Left'
+
+# Simulate the agent's behavior in the environment
+def simulate(agent):
+    location = 'A'
+    state = 'Dirty'
+    score = 0
+    while True:
+        action = agent(location, state)
+        if action == 'Suck':
+            score += performance(state)
+        state = transition(state, action)
+        if action == 'Right':
+            location = 'B'
+        elif action == 'Left':
+            location = 'A'
+        if state == 'Clean' and location == 'B':
+            break
+    return score
+
+# Evaluate the agent's performance by simulating its behavior 10 times
+print(sum(simulate(vacuum_cleaner_agent) for i in range(10)) / 10)
