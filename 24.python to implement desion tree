@@ -1,0 +1,12 @@
+from sklearn import tree
+
+# Example data
+X = [[0, 0], [1, 1]]
+Y = [0, 1]
+
+# Create and fit decision tree model
+clf = tree.DecisionTreeClassifier()
+clf = clf.fit(X, Y)
+
+# Predict a new data point
+print(clf.predict([[2., 2.]]))
