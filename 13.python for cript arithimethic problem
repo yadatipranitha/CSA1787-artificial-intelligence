@@ -1,0 +1,18 @@
+def solve(words, result):
+    chars = set(''.join(words + [result]))
+    digits = {char: str(num) for num, char in enumerate(chars)}
+
+    equation = ' + '.join(words) + ' == ' + result
+    equation = equation.translate(str.maketrans(digits))
+
+    if eval(equation):
+        return equation.translate(str.maketrans(str.maketrans('0123456789', 'ABCDEFGHIJ')))
+
+if __name__ == '__main__':
+    words = ['SEND', 'MORE', 'MONEY']
+    result = 'MONEY'
+    solution = solve(words, result)
+    if solution:
+        print(f'Solution: {solution}')
+    else:
+        print('No solution found.')
